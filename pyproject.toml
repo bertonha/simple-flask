@@ -4,7 +4,8 @@ version = "0.1.0"
 description = ""
 authors = ["Christofer Bertonha <christoferbertonha@gmail.com>"]
 readme = "README.md"
-packages = [{include = "simple_flask"}]
+packages = []
+license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.11"
