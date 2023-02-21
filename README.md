@@ -5,5 +5,5 @@ Server runs on port `8000`
 
 to use it:
 ```
-docker push bertonha/simple-flask:latest
+docker pull bertonha/simple-flask:latest
 ```
