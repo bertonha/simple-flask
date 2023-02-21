@@ -1,12 +1,19 @@
-FROM python:3.8.2-slim-buster AS builder
-RUN pip install --no-cache-dir pipenv
-COPY Pipfile* ./
-RUN pipenv lock --requirements > requirements.txt
-
-FROM python:3.8.2-slim-buster
+FROM python:3-slim as python
+ENV PYTHONUNBUFFERED=true
 WORKDIR /app
-COPY --from=builder /requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-COPY . .
-CMD gunicorn -b :8000 app:app
+
+FROM python as poetry
+ENV POETRY_HOME=/opt/poetry
+ENV POETRY_VIRTUALENVS_IN_PROJECT=true
+ENV PATH="$POETRY_HOME/bin:$PATH"
+RUN python -c 'from urllib.request import urlopen; print(urlopen("https://install.python-poetry.org").read().decode())' | python -
+COPY poetry.lock pyproject.toml /app/
+RUN poetry install --no-interaction --no-ansi -vvv
+COPY . /app
+
+
+FROM python as runtime
+ENV PATH="/app/.venv/bin:$PATH"
+COPY --from=poetry /app /app
+CMD ["gunicorn", "-b", ":8000", "app:app"]
 EXPOSE 8000
