@@ -6,7 +6,7 @@ on:
       - "main"
 
 jobs:
-  pre-commit:
+  lint-tests:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -17,6 +17,7 @@ jobs:
     - run: pipx install poetry
     - run: poetry install
     - uses: pre-commit/action@v3.0.0
+    - run: poetry run pytest
 
   docker:
     runs-on: ubuntu-latest
