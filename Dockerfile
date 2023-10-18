@@ -10,7 +10,7 @@ ENV POETRY_VIRTUALENVS_IN_PROJECT=true
 ENV PATH="$POETRY_HOME/bin:$PATH"
 RUN pip install poetry
 COPY poetry.lock pyproject.toml ./
-RUN poetry install --no-interaction --no-ansi -vvv
+RUN poetry install --only main --no-interaction --no-ansi -vvv
 COPY . .
 
 
