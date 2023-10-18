@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.2
 
-FROM python:3-slim as python
+FROM python:3.12-slim as python
 ENV PYTHONUNBUFFERED=true
 WORKDIR /app
 
