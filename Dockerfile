@@ -17,5 +17,5 @@ COPY . .
 FROM python as runtime
 ENV PATH="/app/.venv/bin:$PATH"
 COPY --from=poetry /app /app
-CMD ["gunicorn", "-b", ":8000", "app:app"]
+CMD ["gunicorn", "-b", ":8000", "flasker:app"]
 EXPOSE 8000

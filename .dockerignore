@@ -1,3 +1,8 @@
 .idea
 .git
+.pre-commit-config.yaml
+.github
+.mypy_cache
+.ruff_cache
+tests
 Dockerfile
