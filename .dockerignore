@@ -32,6 +32,7 @@
 **/values.dev.yaml
 **/.idea
 **/.mypy_cache
+**/.pytest_cache
 **/.ruff_cache
 .github
 .pre-commit-config.yaml
