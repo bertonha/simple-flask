@@ -2,9 +2,11 @@
 
 # Comments are provided throughout this file to help you get started.
 # If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/engine/reference/builder/
+# https://docs.docker.com/go/dockerfile-reference/
 
-ARG PYTHON_VERSION=3.12.0
+# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
+
+ARG PYTHON_VERSION=3.12.2
 FROM python:${PYTHON_VERSION}-slim as base
 
 # Prevents Python from writing pyc files.
@@ -14,20 +16,11 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
 
-ENV POETRY_VIRTUALENVS_IN_PROJECT=1
 
 WORKDIR /app
 
-RUN --mount=type=cache,target=/root/.cache/pip \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    --mount=type=bind,source=poetry.lock,target=poetry.lock \
-    pip install poetry \
-    && poetry install --only main --no-interaction --no-ansi -vvv
-
-ENV PATH="/app/.venv/bin:$PATH"
-
 # Create a non-privileged user that the app will run under.
-# See https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user
+# See https://docs.docker.com/go/dockerfile-user-best-practices/
 ARG UID=10001
 RUN adduser \
     --disabled-password \
@@ -38,7 +31,28 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
+ENV POETRY_VIRTUALENVS_IN_PROJECT=1
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Download dependencies as a separate step to take advantage of Docker's caching.
+# Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
+# Leverage a bind mount to requirements.txt to avoid having to copy them into
+# into this layer.
+RUN --mount=type=cache,target=/root/.cache/pip \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=poetry.lock,target=poetry.lock \
+    python -m pip install poetry \
+    && poetry install --only main --no-interaction --no-ansi -vvv
+
+
+# Switch to the non-privileged user to run the application.
 USER appuser
+
+# Copy the source code into the container.
 COPY . .
+
+# Expose the port that the application listens on.
 EXPOSE 8000
+
+# Run the application.
 CMD gunicorn 'flasker:app' --bind=0.0.0.0:8000
