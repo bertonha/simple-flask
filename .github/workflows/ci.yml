@@ -17,7 +17,7 @@ jobs:
         python-version: '3.12'
         cache: 'poetry'
     - run: poetry install
-    - uses: pre-commit/action@v3.0.0
+    - uses: pre-commit/action@v3.0.1
     - run: poetry run pytest
 
   docker:
