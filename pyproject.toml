@@ -9,13 +9,13 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-Flask = "^3.0.0"
+Flask = "^3.0.2"
 gunicorn = "^21.2.0"
 
 [tool.poetry.group.dev.dependencies]
-mypy = "^1.6.1"
-pytest = "^7.4.2"
-ruff = "^0.1.6"
+mypy = "^1.8.0"
+pytest = "^8.0.2"
+ruff = "^0.2.2"
 
 [build-system]
 requires = ["poetry-core"]
