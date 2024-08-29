@@ -1,25 +1,21 @@
-[tool.poetry]
+[project]
 name = "simple-flask"
 version = "0.1.0"
 description = ""
-authors = ["Christofer Bertonha <christoferbertonha@gmail.com>"]
 readme = "README.md"
-packages = []
+requires-python = ">=3.12"
 license = "MIT"
+dependencies = [
+    "flask>=3.0.3",
+    "gunicorn == 22.0.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-Flask = "^3.0.0"
-gunicorn = "^22.0.0"
-
-[tool.poetry.group.dev.dependencies]
-mypy = "^1.11.1"
-pytest = "^8.3.2"
-ruff = "^0.5.5"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.uv]
+dev-dependencies = [
+    "mypy>=1.11.2",
+    "pytest>=8.3.2",
+    "ruff>=0.6.2",
+]
 
 [tool.ruff]
 line-length = 100

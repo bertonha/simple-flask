@@ -6,8 +6,9 @@
 
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-ARG PYTHON_VERSION=3.12.3
-FROM python:${PYTHON_VERSION}-slim as base
+
+FROM python:3.12.5-slim
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -31,7 +32,6 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
-ENV POETRY_VIRTUALENVS_IN_PROJECT=1
 ENV PATH="/app/.venv/bin:$PATH"
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
@@ -40,9 +40,8 @@ ENV PATH="/app/.venv/bin:$PATH"
 # into this layer.
 RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    --mount=type=bind,source=poetry.lock,target=poetry.lock \
-    python -m pip install poetry \
-    && poetry install --only main --no-interaction --no-ansi -vvv
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    uv sync --frozen
 
 
 # Switch to the non-privileged user to run the application.
