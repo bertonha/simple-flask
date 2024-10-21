@@ -7,7 +7,7 @@
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
 
-FROM python:3.12.5-slim
+FROM python:3.13.0-slim
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
 # Prevents Python from writing pyc files.
