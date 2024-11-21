@@ -1,5 +1,17 @@
-.idea
-*.py[cod]
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# IDE files
+.idea/
+
 **/.mypy_cache
 **/.ruff_cache
 **/.pytest_cache

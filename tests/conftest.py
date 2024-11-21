@@ -1,4 +1,5 @@
 import pytest
+
 from flasker import app as flask_app
 
 
