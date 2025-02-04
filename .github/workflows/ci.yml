@@ -11,14 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Set up uv
-      # Install latest uv version using the installer
-      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
     - uses: actions/setup-python@v5
       with:
         python-version-file: "pyproject.toml"
     - uses: pre-commit/action@v3.0.1
-    - run: uv sync --frozen
+    - run: uv sync --dev
     - run: uv run pytest
 
   docker:
