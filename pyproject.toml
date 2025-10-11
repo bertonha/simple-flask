@@ -3,7 +3,7 @@ name = "simple-flask"
 version = "0.1.0"
 description = ""
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 license = {file = "LICENSE"}
 dependencies = [
     "flask>=3.1.2",
