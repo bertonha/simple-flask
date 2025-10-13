@@ -12,6 +12,8 @@ jobs:
     steps:
     - uses: actions/checkout@v5
     - uses: actions/setup-python@v6
+      with:
+        python-version-file: 'pyproject.toml'
     - uses: astral-sh/setup-uv@v7
     - uses: pre-commit/action@v3.0.1
     - run: uv sync --dev
