@@ -7,7 +7,7 @@ requires-python = ">=3.14"
 license = {file = "LICENSE"}
 dependencies = [
     "flask>=3.1.2",
-    "gunicorn == 23.0.0",
+    "gunicorn==24.0.0",
 ]
 
 [dependency-groups]
