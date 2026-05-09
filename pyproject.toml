@@ -7,14 +7,14 @@ requires-python = ">=3.14"
 license = {file = "LICENSE"}
 dependencies = [
     "flask>=3.1.2",
-    "gunicorn>=25.0.2",
+    "gunicorn>=26.0.0",
 ]
 
 [dependency-groups]
 dev = [
     "pytest>=9.0.3",
     "ruff>=0.15.12",
-    "ty>=0.0.32",
+    "ty>=0.0.34",
 ]
 
 [tool.ruff]
