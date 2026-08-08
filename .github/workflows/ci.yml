@@ -24,7 +24,7 @@ jobs:
         python-version-file: 'pyproject.toml'
     - uses: astral-sh/setup-uv@v7
     - run: uv sync --dev
-    - uses: j178/prek-action@v2.0.6
+    - uses: j178/prek-action@v3.0.0
     - run: uv run pytest
 
   docker:
