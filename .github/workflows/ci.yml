@@ -11,7 +11,7 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   lint-tests:
@@ -19,11 +19,13 @@ jobs:
     timeout-minutes: 15
     steps:
     - uses: actions/checkout@v7
+      with:
+        persist-credentials: false
     - uses: actions/setup-python@v7
       with:
         python-version-file: 'pyproject.toml'
     - uses: astral-sh/setup-uv@v7
-    - run: uv sync --dev
+    - run: uv sync --frozen
     - uses: j178/prek-action@v3.0.0
     - run: uv run pytest
 
@@ -35,6 +37,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
       - name: Set up Docker Buildx
@@ -51,3 +55,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: bertonha/simple-flask:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
